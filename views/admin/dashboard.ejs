@@ -1,0 +1,92 @@
+<body>
+    <%- include('../partials/adminNavbar') %>
+
+
+        <h2 class="p-3 text-center">User Managemenet</h2>
+
+
+        <div class="navbar navbar-light bg-transparent">
+            <div class="container">
+                <form class="d-flex" method="get" action="/admin/dashboard">
+                    <input class="form-control me-2" type="search" name="search" placeholder="Search by name"
+                        value="<%= typeof search !== 'undefined' ? search : '' %>" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <a href="/admin/add-user" class="btn btn-sm btn-success">+ Add user</a>
+            </div>
+        </div>
+
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Deleted</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach((user , index)=>{ %>
+                        <tr>
+                            <th>
+                                <%= (currentPage - 1)*5 + index + 1 %>
+                            </th>
+                            <td>
+                                <%= user.name %>
+                            </td>
+                            <td>
+                                <%= user.email %>
+                            </td>
+                            <td>
+                                <%= user.isDelete ? "yes" : "No" %>
+                            </td>
+                            <td>
+                                <a href="/admin/edit-user/<%= user._id %>" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="/admin/delete/<%= user._id %>" onclick="return confirm('Are you sure to delete?')" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                    <a class="page-link" href="/admin/dashboard?page=<%= currentPage - 1 %><%= search ? '&search=' + search : '' %>" tabindex="-1"
+                        aria-disabled="true">Previous</a>
+                </li>
+
+                <% for(let i=1; i <=totalPages; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link"
+                            href="/admin/dashboard?page=<%= i %><%= search ? '&search=' + search : '' %>">
+                            <%= i %>
+                        </a>
+                    </li>
+                    <% } %>
+
+                        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                            <a class="page-link"
+                                href="/admin/dashboard?page=<%= currentPage + 1 %><%= search ? '&search=' + search : '' %>">Next</a>
+                        </li>
+
+            </ul>
+        </nav>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <% if (success) { %>
+            <script>
+                Swal.fire({
+                    icon: "success",
+                    title: "<%= success %>"
+                })
+            </script>
+            <% } %>
+
+</body>

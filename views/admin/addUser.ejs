@@ -1,0 +1,41 @@
+<body>
+    <%- include('../partials/adminNavbar') %>
+
+
+    <h2 class="p-3 text-center">Add User</h2>
+
+    <div class="container">
+        <form method="post" action="/admin/add-user">
+            <div class="signup-link" style="color: red;  font-size: 1.5rem; font-weight: 300;">
+                <%= msg %>
+            </div><br>
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" name="name">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" name="confirmPassword">
+            </div>
+            <button type="submit" class="btn btn-success">Add User</button>
+            <a href="/admin/dashboard" class="btn btn-secondary">Back</a>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <% if (success) { %>
+        <script>
+            swal("<%= success %>", "", "success");
+        </script>
+    <% } %>
+
+</body>
