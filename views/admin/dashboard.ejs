@@ -44,7 +44,7 @@
                             </td>
                             <td>
                                 <a href="/admin/edit-user/<%= user._id %>" class="btn btn-sm btn-warning">Edit</a>
-                                <a href="/admin/delete/<%= user._id %>" onclick="return confirm('Are you sure to delete?')" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="/admin/delete/<%= user._id %>" onclick="return confirmDelete(event, this)" class="btn btn-sm btn-danger">Delete</a>
                             </td>
 
                         </tr>
@@ -58,8 +58,9 @@
             <ul class="pagination justify-content-center">
 
                 <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
-                    <a class="page-link" href="/admin/dashboard?page=<%= currentPage - 1 %><%= search ? '&search=' + search : '' %>" tabindex="-1"
-                        aria-disabled="true">Previous</a>
+                    <a class="page-link"
+                        href="/admin/dashboard?page=<%= currentPage - 1 %><%= search ? '&search=' + search : '' %>"
+                        tabindex="-1" aria-disabled="true">Previous</a>
                 </li>
 
                 <% for(let i=1; i <=totalPages; i++) { %>
@@ -86,7 +87,29 @@
                     icon: "success",
                     title: "<%= success %>"
                 })
-            </script>
-            <% } %>
 
+            </script>
+        <% } %>
+
+        <script>
+            
+                function confirmDelete(event, element) {
+                    event.preventDefault(); 
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'This user will be deleted!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                        window.location.href = element.href; 
+                        }
+                    });
+
+                    return false;
+                }
+        </script>
 </body>
